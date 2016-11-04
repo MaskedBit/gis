@@ -16,9 +16,10 @@ public class DbfReader implements AutoCloseable, Iterable<DbfRecord>
 	private DbfHeader header;
 	private DbfRandomReader randomReader = null;
 	
-	private DbfReader(String dbPath)
+	private DbfReader(String dbPath, DbfHeader header)
 	{
 		this.dbPath = dbPath;
+		this.header = header;
 	}
 
 	public String getPath()
@@ -28,12 +29,11 @@ public class DbfReader implements AutoCloseable, Iterable<DbfRecord>
 
 	public static DbfReader connect(String dbPath) throws IOException
 	{
-		DbfReader reader = new DbfReader(dbPath);
 		Path filePath = Paths.get(dbPath);
 
-		reader.header = DbfHeaderReader.connect(filePath);
+		DbfHeader header = DbfHeaderReader.connect(filePath);
 
-		return (reader);
+		return (new DbfReader(dbPath, header));
 	}
 	
 	public DbfHeader getHeader()

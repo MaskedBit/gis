@@ -1,23 +1,23 @@
-package edu.tutor.gis.dbf.reader.priv;
+package edu.tutor.gis.shape.reader.priv;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.SeekableByteChannel;
 
-public abstract class DbfFileReader
+public abstract class ShapeFileReader
 {
 	protected SeekableByteChannel channel;
 	protected long readOffset = 0;
 
-	public DbfFileReader(SeekableByteChannel channel)
+	public ShapeFileReader(SeekableByteChannel channel)
 	{
 		this.channel = channel;
 	}
 	
-	protected ByteBuffer fetchByteBuffer(int size) throws IOException
+	protected ByteBuffer fetchByteBuffer(int size, ByteOrder byteOrder) throws IOException
 	{
-		ByteBuffer buffer = ByteBuffer.allocate(size).order(ByteOrder.LITTLE_ENDIAN);
+		ByteBuffer buffer = ByteBuffer.allocate(size).order(byteOrder);
 		
 		int readCount = channel.read(buffer);
 		
