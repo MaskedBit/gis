@@ -1,4 +1,4 @@
-package edu.tutor.gis.dbf.reader;
+package edu.tutor.gis.dbf.reader.priv;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -7,6 +7,12 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
+
+import edu.tutor.gis.dbf.reader.DbfField;
+import edu.tutor.gis.dbf.reader.DbfFieldType;
+import edu.tutor.gis.dbf.reader.DbfHeader;
+import edu.tutor.gis.dbf.reader.DbfVersion;
+import edu.tutor.gis.dbf.reader.UnsupportedVersionException;
 
 public class DbfHeaderReader extends DbfFileReader
 {

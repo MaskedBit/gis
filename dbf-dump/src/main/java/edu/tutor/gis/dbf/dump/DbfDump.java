@@ -48,7 +48,7 @@ public class DbfDump
 				dumper.printRecord(System.out, "", randomRecord);
 
 				System.out.println("---- Record 358 ----");
-				dumper.recordCounter = 355;
+				dumper.recordCounter = 358;
 				randomRecord = reader.readRecord(358);
 				
 				dumper.printRecord(System.out, "", randomRecord);

@@ -1,4 +1,4 @@
-package edu.tutor.gis.dbf.reader;
+package edu.tutor.gis.dbf.reader.priv;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -7,6 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import edu.tutor.gis.dbf.reader.DbfHeader;
+import edu.tutor.gis.dbf.reader.DbfRecord;
 
 public class DbfStreamReader extends DbfFileReader implements Iterator<DbfRecord>
 {

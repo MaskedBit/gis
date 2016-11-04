@@ -6,6 +6,10 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 
+import edu.tutor.gis.dbf.reader.priv.DbfHeaderReader;
+import edu.tutor.gis.dbf.reader.priv.DbfRandomReader;
+import edu.tutor.gis.dbf.reader.priv.DbfStreamReader;
+
 public class DbfReader implements AutoCloseable, Iterable<DbfRecord>
 {
 	private String dbPath;

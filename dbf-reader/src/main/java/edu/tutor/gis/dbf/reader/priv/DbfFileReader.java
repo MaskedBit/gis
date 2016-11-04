@@ -1,4 +1,4 @@
-package edu.tutor.gis.dbf.reader;
+package edu.tutor.gis.dbf.reader.priv;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

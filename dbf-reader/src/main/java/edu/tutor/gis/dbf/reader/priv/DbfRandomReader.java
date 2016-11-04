@@ -1,10 +1,13 @@
-package edu.tutor.gis.dbf.reader;
+package edu.tutor.gis.dbf.reader.priv;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import edu.tutor.gis.dbf.reader.DbfHeader;
+import edu.tutor.gis.dbf.reader.DbfRecord;
 
 public class DbfRandomReader extends DbfFileReader
 {
