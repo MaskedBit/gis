@@ -173,10 +173,4 @@ public class DbfHeaderReader extends DbfFileReader
 		}
 	}
 
-	@Override
-	public void close()
-	{
-		;
-	}
-
 }

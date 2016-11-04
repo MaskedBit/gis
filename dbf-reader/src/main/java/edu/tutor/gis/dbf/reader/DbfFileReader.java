@@ -35,6 +35,12 @@ public abstract class DbfFileReader
 		return (buffer);
 	}
 
-	public abstract void close();
+	public void close() throws IOException
+	{
+		if (channel.isOpen())
+		{
+			channel.close();
+		}
+	}
 
 }

@@ -2,24 +2,22 @@ package edu.tutor.gis.dbf.reader;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.channels.SeekableByteChannel;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class DbfStreamReader extends DbfFileReader
+public class DbfStreamReader extends DbfFileReader implements Iterator<DbfRecord>
 {
 	private DbfHeader header;
+	private int curRecord = 0;
 	
-	public DbfStreamReader(SeekableByteChannel channel)
+	public DbfStreamReader(SeekableByteChannel channel, DbfHeader header)
 	{
 		super(channel);
 
-		this.header = new DbfHeader();
+		this.header = header;
 	}
 	
 	public DbfHeader getHeader()
@@ -27,67 +25,62 @@ public class DbfStreamReader extends DbfFileReader
 		return (header);
 	}
 	
-	public static DbfStreamReader connect(Path filePath) throws IOException
+	public static Iterator<DbfRecord> recordIterator(Path filePath, DbfHeader header) throws IOException
 	{
 		SeekableByteChannel channel = Files.newByteChannel(filePath);
-		DbfStreamReader reader = new DbfStreamReader(channel);
-
-		reader.readHeader();
 		
+		channel.position(header.getHeaderLength());
+
+		DbfStreamReader reader = new DbfStreamReader(channel, header);
+
 		return (reader);
 	}
 	
-	public Iterator<DbfRecord> recordIterator()
+	@Override
+	public boolean hasNext()
 	{
-		return (new RecordIterator());
-	}
-	
-	private class RecordIterator implements Iterator<DbfRecord>
-	{
-		private int curRecord = 0;
-
-		@Override
-		public boolean hasNext()
+		if (curRecord < header.getRecordCount())
 		{
-			if (curRecord < header.getRecordCount())
-			{
-				return (true);
-			}
-			else
-			{
-				return (false);
-			}
+			return (true);
 		}
-
-		@Override
-		public DbfRecord next()
+		else
 		{
-			if (curRecord >= header.getRecordCount())
-			{
-				throw new NoSuchElementException("There are only " + header.getRecordCount() + " records in this file");
-			}
-			else
-			{
-				try
-				{
-					ByteBuffer buffer = fetchByteBuffer(header.getRecordLength());
-
-					curRecord++;
-
-					return (DbfRecord.construct(header.getFields(), buffer));
-				}
-				catch (IOException e)
-				{
-					throw new RuntimeException("I/O error reading file", e);
-				}
-			}
+			return (false);
+//			try
+//			{
+//				channel.close();
+//
+//				return (false);
+//			}
+//			catch (IOException e)
+//			{
+//				throw new RuntimeException("I/O error reading file", e);
+//			}
 		}
-		
 	}
 
-	public void close()
+	@Override
+	public DbfRecord next()
 	{
-		;
+		if (curRecord >= header.getRecordCount())
+		{
+			throw new NoSuchElementException("There are only " + header.getRecordCount() + " records in this file");
+		}
+		else
+		{
+			try
+			{
+				ByteBuffer buffer = fetchByteBuffer(header.getRecordLength());
+
+				curRecord++;
+
+				return (DbfRecord.construct(header.getFields(), buffer));
+			}
+			catch (IOException e)
+			{
+				throw new RuntimeException("I/O error reading file", e);
+			}
+		}
 	}
 
 }

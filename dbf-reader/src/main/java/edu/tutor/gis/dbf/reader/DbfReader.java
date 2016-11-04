@@ -9,8 +9,8 @@ import java.util.List;
 public class DbfReader implements AutoCloseable, Iterable<DbfRecord>
 {
 	private String dbPath;
-	private DbfFileReader fileReader;
 	private DbfHeader header;
+	private DbfRandomReader randomReader = null;
 	
 	private DbfReader(String dbPath)
 	{
@@ -44,13 +44,33 @@ public class DbfReader implements AutoCloseable, Iterable<DbfRecord>
 
 	public void close() throws Exception
 	{
-		fileReader.close();
+		if (randomReader != null)
+		{
+			randomReader.close();
+		}
 	}
 
 	@Override
 	public Iterator<DbfRecord> iterator()
 	{
-		return (fileReader.recordIterator());
+		try
+		{
+			return (DbfStreamReader.recordIterator(Paths.get(dbPath), header));
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException("I/O error reading file", e);
+		}
+	}
+
+	public DbfRecord readRecord(int index) throws IOException
+	{
+		if (randomReader == null)
+		{
+			randomReader = DbfRandomReader.connect(Paths.get(dbPath), header);
+		}
+		
+		return (randomReader.read(index));
 	}
 
 }

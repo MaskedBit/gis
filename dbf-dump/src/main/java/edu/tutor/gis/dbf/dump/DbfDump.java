@@ -39,6 +39,19 @@ public class DbfDump
 				DbfDump dumper = new DbfDump(reader);
 				
 				dumper.printContents(System.out, "");
+				
+				// TEST for random file access
+				System.out.println("---- Record 355 ----");
+				dumper.recordCounter = 355;
+				DbfRecord randomRecord = reader.readRecord(355);
+				
+				dumper.printRecord(System.out, "", randomRecord);
+
+				System.out.println("---- Record 358 ----");
+				dumper.recordCounter = 355;
+				randomRecord = reader.readRecord(358);
+				
+				dumper.printRecord(System.out, "", randomRecord);
 			}
 			catch (IOException e)
 			{
@@ -47,6 +60,7 @@ public class DbfDump
 			catch (Exception e1)
 			{
 				System.out.println("*** General Error:  " + e1.getMessage());
+				e1.printStackTrace();
 			}
 		}
 	}
