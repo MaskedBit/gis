@@ -26,6 +26,11 @@ public class DbfReader implements AutoCloseable, Iterable<DbfRecord>
 	{
 		return (dbPath);
 	}
+	
+	public DbfHeader getHeader()
+	{
+		return (header);
+	}
 
 	public static DbfReader connect(String dbPath) throws IOException
 	{
@@ -34,11 +39,6 @@ public class DbfReader implements AutoCloseable, Iterable<DbfRecord>
 		DbfHeader header = DbfHeaderReader.connect(filePath);
 
 		return (new DbfReader(dbPath, header));
-	}
-	
-	public DbfHeader getHeader()
-	{
-		return (header);
 	}
 
 	public List<DbfField> getFields()

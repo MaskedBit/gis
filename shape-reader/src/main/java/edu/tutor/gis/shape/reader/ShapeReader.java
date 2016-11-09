@@ -1,13 +1,13 @@
 package edu.tutor.gis.shape.reader;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import edu.tutor.gis.shape.ShapeHeader;
 import edu.tutor.gis.shape.reader.priv.ShapeHeaderReader;
 
-public class ShapeReader implements Closeable
+public class ShapeReader implements AutoCloseable
 {
 	private Path shapePath;
 	private Path indexPath;
@@ -18,6 +18,16 @@ public class ShapeReader implements Closeable
 		this.shapePath = shapePath;
 		this.indexPath = indexPath;
 		this.header = header;
+	}
+
+	public Path getShapePath()
+	{
+		return (shapePath);
+	}
+
+	public Path getIndexPath()
+	{
+		return (indexPath);
 	}
 
 	public ShapeHeader getHeader()

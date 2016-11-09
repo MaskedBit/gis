@@ -1,4 +1,4 @@
-package edu.tutor.gis.shape.reader;
+package edu.tutor.gis.shape;
 
 public enum ShapeType
 {

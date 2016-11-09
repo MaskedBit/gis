@@ -1,8 +1,6 @@
-package edu.tutor.gis.shape.reader;
+package edu.tutor.gis.shape;
 
 import java.io.PrintStream;
-
-import edu.tutor.gis.shape.MeasuredBoundingBox3D;
 
 public class ShapeHeader
 {

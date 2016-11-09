@@ -16,7 +16,7 @@ public class DbfStreamReader extends DbfFileReader implements Iterator<DbfRecord
 	private DbfHeader header;
 	private int curRecord = 0;
 	
-	public DbfStreamReader(SeekableByteChannel channel, DbfHeader header)
+	private DbfStreamReader(SeekableByteChannel channel, DbfHeader header)
 	{
 		super(channel);
 
@@ -27,7 +27,7 @@ public class DbfStreamReader extends DbfFileReader implements Iterator<DbfRecord
 	{
 		return (header);
 	}
-	
+
 	public static Iterator<DbfRecord> recordIterator(Path filePath, DbfHeader header) throws IOException
 	{
 		SeekableByteChannel channel = Files.newByteChannel(filePath);

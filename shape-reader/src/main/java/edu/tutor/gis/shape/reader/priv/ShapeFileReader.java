@@ -5,8 +5,15 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.SeekableByteChannel;
 
+import edu.tutor.gis.shape.BoundingBox;
+import edu.tutor.gis.shape.BoundingBox3D;
+import edu.tutor.gis.shape.MeasuredBoundingBox3D;
+import edu.tutor.gis.shape.Point;
+
 public abstract class ShapeFileReader
 {
+	public static final int SHAPE_HEADER_LENGTH = 100;	// Header of .shp and .shx files is always 100 bytes long.
+
 	protected SeekableByteChannel channel;
 	protected long readOffset = 0;
 
@@ -41,6 +48,59 @@ public abstract class ShapeFileReader
 		{
 			channel.close();
 		}
+	}
+
+	protected MeasuredBoundingBox3D readMeasuredBoundingBox3D(ByteBuffer buffer)
+	{
+		MeasuredBoundingBox3D boundingBox = new MeasuredBoundingBox3D();
+		
+		// Note the order of bounding box fields!
+		boundingBox.setMinX(buffer.getDouble());
+		boundingBox.setMinY(buffer.getDouble());
+		boundingBox.setMaxX(buffer.getDouble());
+		boundingBox.setMaxY(buffer.getDouble());
+		boundingBox.setMinZ(buffer.getDouble());
+		boundingBox.setMaxZ(buffer.getDouble());
+		boundingBox.setMinM(buffer.getDouble());
+		boundingBox.setMaxM(buffer.getDouble());
+		
+		return (boundingBox);
+	}
+
+	protected BoundingBox3D readBoundingBox3D(ByteBuffer buffer)
+	{
+		BoundingBox3D boundingBox = new BoundingBox3D();
+		
+		// Note the order of bounding box fields!
+		boundingBox.setMinX(buffer.getDouble());
+		boundingBox.setMinY(buffer.getDouble());
+		boundingBox.setMaxX(buffer.getDouble());
+		boundingBox.setMaxY(buffer.getDouble());
+		boundingBox.setMinZ(buffer.getDouble());
+		boundingBox.setMaxZ(buffer.getDouble());
+		
+		return (boundingBox);
+	}
+
+	protected BoundingBox readBoundingBox(ByteBuffer buffer)
+	{
+		BoundingBox boundingBox = new BoundingBox();
+		
+		// Note the order of bounding box fields!
+		boundingBox.setMinX(buffer.getDouble());
+		boundingBox.setMinY(buffer.getDouble());
+		boundingBox.setMaxX(buffer.getDouble());
+		boundingBox.setMaxY(buffer.getDouble());
+		
+		return (boundingBox);
+	}
+	
+	protected Point readPoint(ByteBuffer buffer)
+	{
+		double x = buffer.getDouble();
+		double y = buffer.getDouble();
+		
+		return (new Point(x, y));
 	}
 
 }
