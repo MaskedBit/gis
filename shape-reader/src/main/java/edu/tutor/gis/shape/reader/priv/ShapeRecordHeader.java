@@ -1,5 +1,7 @@
 package edu.tutor.gis.shape.reader.priv;
 
+import java.io.PrintStream;
+
 import edu.tutor.gis.shape.ShapeType;
 
 public class ShapeRecordHeader
@@ -31,6 +33,16 @@ public class ShapeRecordHeader
 	public ShapeType getShapeType()
 	{
 		return shapeType;
+	}
+
+	public void debugPrint(PrintStream out, String indent)
+	{
+		String childIndent = indent + "  ";
+
+		out.format("%s ShapeRecordHeader:%n", indent);
+		out.format("%s recordNumber=%i%n", childIndent, recordNumber);
+		out.format("%s contentLength=%i%n", childIndent, contentLength);
+		out.format("%s shapeType=%s%n", childIndent, shapeType.toString());
 	}
 
 }

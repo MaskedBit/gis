@@ -13,6 +13,7 @@ import edu.tutor.gis.shape.Point;
 public abstract class ShapeFileReader
 {
 	public static final int SHAPE_HEADER_LENGTH = 100;	// Header of .shp and .shx files is always 100 bytes long.
+	public static final int POINT_STRUCTURE_LENGTH = 16;	// 2 doubles at 8 each
 
 	protected SeekableByteChannel channel;
 	protected long readOffset = 0;

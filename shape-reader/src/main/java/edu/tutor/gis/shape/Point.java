@@ -1,5 +1,7 @@
 package edu.tutor.gis.shape;
 
+import java.io.PrintStream;
+
 public class Point
 {
 	private double x = Double.NaN;
@@ -23,6 +25,15 @@ public class Point
 
 	public double getY() {
 		return y;
+	}
+
+	public void debugPrint(PrintStream out, String indent)
+	{
+		String childIndent = indent + "  ";
+
+		out.format("%s Point:%n", indent);
+		out.format("%s x=%f%n", childIndent, x);
+		out.format("%s y=%f%n", childIndent, y);
 	}
 
 }

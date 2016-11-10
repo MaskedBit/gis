@@ -1,38 +1,48 @@
 package edu.tutor.gis.shape;
 
+import java.io.PrintStream;
+
 import edu.tutor.gis.shape.reader.priv.ShapeRecordHeader;
 
 public class MultiPointShapeRecord extends ShapeRecord
 {
 	private BoundingBox boundingBox;
-	private int numPoints;
-	private Point[] pointArray;
+	private Point[] points;
 
-	public MultiPointShapeRecord(ShapeRecordHeader header, BoundingBox boundingBox, int numPoints, Point[] pointArray)
+	public MultiPointShapeRecord(ShapeRecordHeader header, BoundingBox boundingBox, Point[] points)
 	{
 		super(header);
 		
 		this.boundingBox = boundingBox;
-		this.numPoints = numPoints;
-		this.pointArray = pointArray;
+		this.points = points;
 	}
 
 	public BoundingBox getBoundingBox() {
 		return boundingBox;
 	}
 
-	public int getNumPoints() {
-		return numPoints;
-	}
-
 	public Point[] getPointArray() {
-		return pointArray;
+		return points;
 	}
 
 	@Override
 	public ShapeType getShapeType()
 	{
 		return (ShapeType.MULTI_POINT);
+	}
+
+	public void debugPrint(PrintStream out, String indent)
+	{
+		String childIndent = indent + "  ";
+		String grandChildIndent = childIndent + "  ";
+		
+		out.format("%s MultiPointShapeRecord:%n", indent);
+		out.format("%s boundingBox:%n", childIndent);
+		boundingBox.debugPrint(out, grandChildIndent);
+		for (int index = 0; index < points.length; index++)
+		{
+			out.format("%s points[%i]:  x=%f, y=%f%n", childIndent, index, points[index].getX(), points[index].getY());
+		}
 	}
 
 }

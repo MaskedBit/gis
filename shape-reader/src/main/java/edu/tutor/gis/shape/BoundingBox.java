@@ -58,7 +58,7 @@ public class BoundingBox
 	{
 		String childIndent = indent + "  ";
 		
-		out.format("%s BoundingBox3D:%n", indent);
+		out.format("%s BoundingBox:%n", indent);
 		out.format("%s minX=%f%n", childIndent, minX);
 		out.format("%s maxX=%f%n", childIndent, maxX);
 		out.format("%s minY=%f%n", childIndent, minY);

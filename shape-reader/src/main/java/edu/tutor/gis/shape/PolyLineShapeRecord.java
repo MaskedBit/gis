@@ -4,29 +4,29 @@ import edu.tutor.gis.shape.reader.priv.ShapeRecordHeader;
 
 public class PolyLineShapeRecord extends ShapeRecord
 {
-	private double x;
-	private double y;
+	private BoundingBox boundingBox;
+	private PolyLinePart[] parts;
 
-	public PolyLineShapeRecord(ShapeRecordHeader header, double x, double y)
+	public PolyLineShapeRecord(ShapeRecordHeader header, BoundingBox boundingBox, PolyLinePart[] parts)
 	{
 		super(header);
 		
-		this.x = x;
-		this.y = y;
+		this.boundingBox = boundingBox;
+		this.parts = parts;
 	}
 
-	public double getX() {
-		return x;
+	public BoundingBox getBoundingBox() {
+		return boundingBox;
 	}
 
-	public double getY() {
-		return y;
+	public PolyLinePart[] getParts() {
+		return parts;
 	}
 
 	@Override
 	public ShapeType getShapeType()
 	{
-		return (ShapeType.POINT);
+		return (ShapeType.POLYLINE);
 	}
 
 }

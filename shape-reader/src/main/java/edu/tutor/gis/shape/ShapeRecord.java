@@ -1,5 +1,7 @@
 package edu.tutor.gis.shape;
 
+import java.io.PrintStream;
+
 import edu.tutor.gis.shape.reader.priv.ShapeRecordHeader;
 
 public abstract class ShapeRecord
@@ -22,5 +24,13 @@ public abstract class ShapeRecord
 	}
 
 	public abstract ShapeType getShapeType();
+
+	public void debugPrint(PrintStream out, String indent)
+	{
+		String childIndent = indent + "  ";
+		
+		out.format("%s ShapeRecord:%n", indent);
+		header.debugPrint(out, childIndent);
+	}
 
 }

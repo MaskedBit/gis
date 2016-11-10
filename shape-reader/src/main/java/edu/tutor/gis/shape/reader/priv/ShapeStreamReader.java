@@ -88,7 +88,7 @@ public class ShapeStreamReader extends ShapeFileReader implements Iterator<Shape
 			return (buildPointShapeRecord(recordHeader));
 
 		case POLYLINE:
-			break;
+			return (PolyLineReader.readRecord(this, recordHeader));
 
 		case POLYGON:
 			break;
@@ -172,7 +172,7 @@ public class ShapeStreamReader extends ShapeFileReader implements Iterator<Shape
 			pointArray[index] = readPoint(buffer);
 		}
 
-		return (new MultiPointShapeRecord(recordHeader, boundingBox, numPoints, pointArray));
+		return (new MultiPointShapeRecord(recordHeader, boundingBox, pointArray));
 	}
 
 }
