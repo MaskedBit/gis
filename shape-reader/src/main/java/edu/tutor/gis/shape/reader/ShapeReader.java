@@ -3,11 +3,14 @@ package edu.tutor.gis.shape.reader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
 
 import edu.tutor.gis.shape.ShapeHeader;
+import edu.tutor.gis.shape.ShapeRecord;
 import edu.tutor.gis.shape.reader.priv.ShapeHeaderReader;
+import edu.tutor.gis.shape.reader.priv.ShapeStreamReader;
 
-public class ShapeReader implements AutoCloseable
+public class ShapeReader implements AutoCloseable, Iterable<ShapeRecord>
 {
 	private Path shapePath;
 	private Path indexPath;
@@ -41,7 +44,7 @@ public class ShapeReader implements AutoCloseable
 		Path shapePath = filePath.resolveSibling(filePath.getFileName() + ".shp");
 		Path indexPath = filePath.resolveSibling(filePath.getFileName() + ".shx");
 
-		ShapeHeader header = ShapeHeaderReader.connect(filePath);
+		ShapeHeader header = ShapeHeaderReader.connect(shapePath);
 
 		return (new ShapeReader(shapePath, indexPath, header));
 	}
@@ -49,8 +52,20 @@ public class ShapeReader implements AutoCloseable
 	@Override
 	public void close() throws IOException
 	{
-		// TODO Auto-generated method stub
+		;
+	}
 
+	@Override
+	public Iterator<ShapeRecord> iterator()
+	{
+		try
+		{
+			return (ShapeStreamReader.recordIterator(shapePath, header));
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException("I/O error reading file", e);
+		}
 	}
 
 }

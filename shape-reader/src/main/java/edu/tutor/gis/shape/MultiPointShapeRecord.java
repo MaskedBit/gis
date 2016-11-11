@@ -41,7 +41,7 @@ public class MultiPointShapeRecord extends ShapeRecord
 		boundingBox.debugPrint(out, grandChildIndent);
 		for (int index = 0; index < points.length; index++)
 		{
-			out.format("%s points[%i]:  x=%f, y=%f%n", childIndent, index, points[index].getX(), points[index].getY());
+			out.format("%s points[%d]:  x=%f, y=%f%n", childIndent, index, points[index].getX(), points[index].getY());
 		}
 	}
 

@@ -40,8 +40,8 @@ public class ShapeRecordHeader
 		String childIndent = indent + "  ";
 
 		out.format("%s ShapeRecordHeader:%n", indent);
-		out.format("%s recordNumber=%i%n", childIndent, recordNumber);
-		out.format("%s contentLength=%i%n", childIndent, contentLength);
+		out.format("%s recordNumber=%d%n", childIndent, recordNumber);
+		out.format("%s contentLength=%d%n", childIndent, contentLength);
 		out.format("%s shapeType=%s%n", childIndent, shapeType.toString());
 	}
 

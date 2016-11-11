@@ -8,25 +8,28 @@ import edu.tutor.gis.shape.BoundingBox;
 import edu.tutor.gis.shape.Point;
 import edu.tutor.gis.shape.PolyLinePart;
 import edu.tutor.gis.shape.PolyLineShapeRecord;
+import edu.tutor.gis.shape.PolyShapeRecord;
+import edu.tutor.gis.shape.PolygonShapeRecord;
+import edu.tutor.gis.shape.ShapeType;
 
-public class PolyLineReader extends RecordReader
+public class PolyShapeReader extends RecordReader
 {
 
-	private PolyLineReader(ShapeFileReader reader, ShapeRecordHeader recordHeader)
+	private PolyShapeReader(ShapeFileReader reader, ShapeRecordHeader recordHeader)
 	{
 		super(reader, recordHeader);
 	}
 
-	public static PolyLineShapeRecord readRecord(ShapeFileReader fileReader, ShapeRecordHeader recordHeader) throws IOException
+	public static PolyShapeRecord readRecord(ShapeFileReader fileReader, ShapeRecordHeader recordHeader) throws IOException
 	{
-		PolyLineReader reader = new PolyLineReader(fileReader, recordHeader);
+		PolyShapeReader reader = new PolyShapeReader(fileReader, recordHeader);
 
 		return (reader.read());
 	}
 
 	private static final int FIXED_RECORD_LENGTH = 40;
 	
-	private PolyLineShapeRecord read() throws IOException
+	private PolyShapeRecord read() throws IOException
 	{
 		ByteBuffer buffer = reader.fetchByteBuffer(FIXED_RECORD_LENGTH, ByteOrder.LITTLE_ENDIAN);
 		BoundingBox boundingBox = reader.readBoundingBox(buffer);
@@ -34,8 +37,15 @@ public class PolyLineReader extends RecordReader
 		int numPoints = buffer.getInt();
 		
 		PolyLinePart[] parts = readParts(numParts, numPoints);
-		
-		return (new PolyLineShapeRecord(recordHeader, boundingBox, parts));
+
+		if (recordHeader.getShapeType().equals(ShapeType.POLYLINE))
+		{
+			return (new PolyLineShapeRecord(recordHeader, boundingBox, parts));
+		}
+		else
+		{
+			return (new PolygonShapeRecord(recordHeader, boundingBox, parts));
+		}
 	}
 
 	private PolyLinePart[] readParts(int numParts, int numPoints) throws IOException

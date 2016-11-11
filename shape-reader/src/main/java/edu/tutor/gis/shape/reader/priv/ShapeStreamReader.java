@@ -29,8 +29,8 @@ public class ShapeStreamReader extends ShapeFileReader implements Iterator<Shape
 	{
 		super(channel);
 		
-		this.channel.position(SHAPE_HEADER_LENGTH);
-		this.readOffset = SHAPE_HEADER_LENGTH;
+		this.channel.position(SHAPE_FILE_HEADER_LENGTH);
+		this.readOffset = SHAPE_FILE_HEADER_LENGTH;
 		this.header = header;
 		this.fileByteLength = this.header.getFileLength() * 2;  // File length is in 16-bit words
 	}
@@ -88,47 +88,26 @@ public class ShapeStreamReader extends ShapeFileReader implements Iterator<Shape
 			return (buildPointShapeRecord(recordHeader));
 
 		case POLYLINE:
-			return (PolyLineReader.readRecord(this, recordHeader));
+			return (PolyShapeReader.readRecord(this, recordHeader));
 
 		case POLYGON:
-			break;
+			return (PolyShapeReader.readRecord(this, recordHeader));
 
 		case MULTI_POINT:
 			return (buildMultiPointShapeRecord(recordHeader));
 
 		case POINT_Z:
-			break;
-
 		case POLYLINE_Z:
-			break;
-
 		case POLYGON_Z:
-			break;
-
 		case MULTI_POINT_Z:
-			break;
-
 		case POINT_M:
-			break;
-
 		case POLYLINE_M:
-			break;
-
 		case POLYGON_M:
-			break;
-
 		case MULTI_POINT_M:
-			break;
-
 		case MULTI_PATCH:
-			break;
-
 		default:
 			throw new RuntimeException("Cannot process shape type " + recordHeader.getShapeType().toString());
 		}
-		
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private ShapeRecordHeader readRecordHeader() throws IOException
@@ -138,7 +117,7 @@ public class ShapeStreamReader extends ShapeFileReader implements Iterator<Shape
 		int recordNumber = readerHeaderBuffer.getInt();
 		int contentLength = readerHeaderBuffer.getInt();
 
-		ByteBuffer shapeHeaderBuffer = fetchByteBuffer(RECORD_HEADER_LENGTH, ByteOrder.LITTLE_ENDIAN);
+		ByteBuffer shapeHeaderBuffer = fetchByteBuffer(SHAPE_HEADER_LENGTH, ByteOrder.LITTLE_ENDIAN);
 
 		ShapeType shapeType = ShapeType.valueOf(shapeHeaderBuffer.getInt());
 

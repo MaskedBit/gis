@@ -14,7 +14,7 @@ import edu.tutor.gis.shape.ShapeType;
 public class ShapeHeaderReader extends ShapeFileReader
 {
 	public static final int BIG_ENDIAN_SEGMENT_LENGTH = 28;
-	public static final int LITTLE_ENDIAN_SEGMENT_LENGTH = SHAPE_HEADER_LENGTH - BIG_ENDIAN_SEGMENT_LENGTH;
+	public static final int LITTLE_ENDIAN_SEGMENT_LENGTH = SHAPE_FILE_HEADER_LENGTH - BIG_ENDIAN_SEGMENT_LENGTH;
 
 	public static final int ESRI_FILE_CODE = 9994;
 	

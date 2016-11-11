@@ -29,6 +29,8 @@ public class DbfDump
 
 		for (String curPath : commandLine.files())
 		{
+			System.out.println("Input file:  \"" + curPath + "\"");
+
 			try (DbfReader reader = DbfReader.connect(curPath))
 			{
 				if (commandLine.isDebug())
@@ -68,8 +70,6 @@ public class DbfDump
 	private void printContents(PrintStream out, String indent)
 	{
 		String childIndent = indent + "  ";
-
-		out.format("%s Contents of %s:%n", indent, reader.getPath());
 		
 		for (DbfRecord curRecord : reader)
 		{

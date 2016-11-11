@@ -1,5 +1,7 @@
 package edu.tutor.gis.shape;
 
+import java.io.PrintStream;
+
 import edu.tutor.gis.shape.reader.priv.ShapeRecordHeader;
 
 public class PointShapeRecord extends ShapeRecord
@@ -28,6 +30,17 @@ public class PointShapeRecord extends ShapeRecord
 	public ShapeType getShapeType()
 	{
 		return (ShapeType.POINT);
+	}
+
+	public void debugPrint(PrintStream out, String indent)
+	{
+		String childIndent = indent + "  ";
+		String grandChildIndent = childIndent + "  ";
+
+		out.format("%s PointShapeRecord:%n", indent);
+		super.debugPrint(out, childIndent);
+		out.format("%s point:%n", childIndent);
+		point.debugPrint(out, grandChildIndent);
 	}
 
 }

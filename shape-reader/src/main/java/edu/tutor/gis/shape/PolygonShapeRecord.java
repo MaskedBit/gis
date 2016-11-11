@@ -4,10 +4,10 @@ import java.io.PrintStream;
 
 import edu.tutor.gis.shape.reader.priv.ShapeRecordHeader;
 
-public class PolyLineShapeRecord extends PolyShapeRecord
+public class PolygonShapeRecord extends PolyShapeRecord
 {
 
-	public PolyLineShapeRecord(ShapeRecordHeader header, BoundingBox boundingBox, PolyLinePart[] parts)
+	public PolygonShapeRecord(ShapeRecordHeader header, BoundingBox boundingBox, PolyLinePart[] parts)
 	{
 		super(header, boundingBox, parts);
 	}
@@ -15,14 +15,14 @@ public class PolyLineShapeRecord extends PolyShapeRecord
 	@Override
 	public ShapeType getShapeType()
 	{
-		return (ShapeType.POLYLINE);
+		return (ShapeType.POLYGON);
 	}
 
 	public void debugPrint(PrintStream out, String indent)
 	{
 		String childIndent = indent + "  ";
 		
-		out.format("%s PolyLineShapeRecord:%n", indent);
+		out.format("%s PolygonShapeRecord:%n", indent);
 		super.debugPrint(out, childIndent);
 	}
 
